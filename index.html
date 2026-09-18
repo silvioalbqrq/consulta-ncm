@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Painel Contábil — Consulta NCM × TIPI (ADE 001/2026)</title>
+<style>
+*{box-sizing:border-box}
+:root{--bg:#eef1f5;--panel:#fff;--ink:#1a2332;--mut:#6b7787;--line:#dde3ec;--blue:#1d4ed8;--green:#15803d;--amber:#92400e}
+body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.45 "Segoe UI",Roboto,Arial,sans-serif}
+.top{background:#111c30;color:#fff;border-bottom:4px solid var(--blue)}
+.top .wrap{display:flex;align-items:center;gap:14px;padding:14px 20px;max-width:1280px;margin:0 auto}
+.logo{width:42px;height:42px;border-radius:10px;background:var(--blue);display:grid;place-items:center;font-size:22px;font-weight:800}
+.top h1{font-size:18px;margin:0}
+.top small{color:#b9c4d6;font-size:12px}
+.top .sp{flex:1}
+.btn{border:0;border-radius:8px;padding:10px 14px;font-weight:700;font-size:13px;cursor:pointer}
+.btn-exp{background:#22c55e;color:#06280f}
+.btn-search{background:var(--blue);color:#fff}
+.btn-lim{background:#e8edf5;color:#334155}
+.wrap{max-width:1280px;margin:0 auto;padding:16px 20px}
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:14px 0}
+.kpi{background:var(--panel);border:1px solid var(--line);border-left:5px solid var(--blue);border-radius:10px;padding:10px 14px}
+.kpi b{font-size:22px;display:block}
+.kpi span{font-size:12px;color:var(--mut)}
+.kpi.g{border-left-color:#22c55e}.kpi.a{border-left-color:#f59e0b}.kpi.d{border-left-color:#64748b}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:12px}
+.filters{padding:14px;border-bottom:1px solid var(--line);position:sticky;top:0;background:#fff;z-index:5;border-radius:12px 12px 0 0}
+.frow{display:grid;grid-template-columns:1fr 170px 130px 170px 130px;gap:10px}
+.frow2{display:flex;gap:10px;margin-top:10px;align-items:center;flex-wrap:wrap}
+input[type=text],select{width:100%;border:1.5px solid var(--line);border-radius:8px;padding:10px;font-size:14px;background:#fbfcfe}
+label{font-size:11px;font-weight:700;color:var(--mut);text-transform:uppercase;display:block;margin-bottom:4px}
+.meta{display:flex;gap:16px;font-size:12px;color:var(--mut);flex-wrap:wrap}
+.meta b{color:var(--ink)}
+.tablewrap{max-height:62vh;overflow:auto}
+table{width:100%;border-collapse:collapse;font-size:13px}
+thead th{position:sticky;top:0;background:#111c30;color:#fff;padding:9px 8px;text-align:left;font-size:11px;text-transform:uppercase;cursor:pointer;white-space:nowrap;z-index:2}
+tbody td{padding:7px 8px;border-bottom:1px solid var(--line);vertical-align:top}
+tbody tr:nth-child(even) td{background:#f7f9fc}
+tbody tr:hover td{background:#eaf1fe}
+.mono{font-family:Consolas,monospace;font-weight:700;white-space:nowrap}
+.tag{display:inline-block;padding:2px 8px;border-radius:20px;font-weight:800;font-size:12px;white-space:nowrap}
+.t-nt{background:#fef3c7;color:var(--amber);border:1px solid #f5c542}
+.t-z{background:#dcfce7;color:var(--green);border:1px solid #6ee7a8}
+.t-v{background:#e2e8f0;color:#475569}
+.t-p{background:#dbeafe;color:#1e40af;border:1px solid #93c5fd}
+mark{background:#fde047;padding:0 2px}
+.pager{display:flex;gap:10px;align-items:center;justify-content:space-between;padding:12px 14px;flex-wrap:wrap}
+.foot{text-align:center;color:var(--mut);font-size:12px;padding:14px}
+@media(max-width:900px){.kpis{grid-template-columns:1fr 1fr}.frow{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+<div class="top"><div class="wrap">
+<div class="logo">§</div>
+<div><h1>Painel Contábil — NCM × TIPI</h1><small>Decreto 11.158/2022 · TIPI 2022 atualizada até ADE RFB 001/2026 · 15.653 linhas · uso 100% local</small></div>
+<div class="sp"></div>
+<button class="btn btn-exp" onclick="exportCSV()">⬇ Exportar CSV</button>
+</div></div>
+<div class="wrap">
+<div class="kpis">
+<div class="kpi"><b id="kTotal">–</b><span>Total de linhas TIPI</span></div>
+<div class="kpi g"><b id="kItens">–</b><span>NCM 8 dígitos</span></div>
+<div class="kpi a"><b id="kNT">–</b><span>Não Tributados (NT)</span></div>
+<div class="kpi d"><b id="kF">–</b><span>Resultado do filtro atual</span></div>
+</div>
+<div class="panel">
+<div class="filters">
+<div class="frow">
+<div><label>Busca (NCM ou descrição) — tecla / foca aqui</label><input id="q" type="text" placeholder="Ex: 8471 · 2208.30.10 · cerveja · automóvel"></div>
+<div><label>Alíquota</label><select id="fAliq"><option value="">Todas</option></select></div>
+<div><label>EX</label><select id="fEx"><option value="">Todos</option><option value="com">Com EX</option><option value="sem">Sem EX</option></select></div>
+<div><label>Capítulo</label><select id="fCap"><option value="">Todos</option></select></div>
+<div><label>Tipo</label><select id="fTipo"><option value="">Todos</option><option value="item">8 dígitos</option><option value="grupo">Grupos</option></select></div>
+</div>
+<div class="frow2">
+<button class="btn btn-search" onclick="aplicar(true)">Filtrar</button>
+<button class="btn btn-lim" onclick="limpar()">Limpar</button>
+<label style="margin:0">Por página <select id="fPage" style="width:80px;display:inline-block"><option>50</option><option selected>100</option><option>200</option><option>500</option></select></label>
+<div class="meta" id="meta"></div>
+</div>
+</div>
+<div class="tablewrap"><table>
+<thead><tr>
+<th data-s="ncm">NCM ↕</th><th>EX</th><th data-s="desc">Descrição ↕</th><th data-s="aliq">Alíquota ↕</th><th>Ação</th>
+</tr></thead>
+<tbody id="tb"></tbody>
+</table></div>
+<div class="pager">
+<span class="meta" id="pg"></span>
+<button class="btn btn-lim" id="btnMore" onclick="mais()">Carregar mais</button>
+</div>
+</div>
+<div class="foot">Fonte: “1 TIPI 2022 - Atualizada ADE 001-2026.xlsx” · NT = Não Tributado · clique no NCM para copiar · sem envio de dados</div>
+</div>
+<script src="tipi-data.js"></script>
+<script>
+const $=id=>document.getElementById(id);
+const norm=s=>(s||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+const dig=s=>(s||'').replace(/\D/g,'');
+let DATA=(typeof TIPI_DATA!=='undefined')?TIPI_DATA:[];
+DATA.forEach(r=>{r._n=norm(r.desc);r._d=r.digits;});
+let F=DATA.slice(),show=0,sortK='ncm',sortD=1;
+function init(){
+ const a=[...new Set(DATA.map(r=>r.aliq))].sort((x,y)=>x===''||y===''? (x===''?1:-1) : (x==='NT'?-1:y==='NT'?1:parseFloat(x)-parseFloat(y)));
+ a.forEach(v=>{const o=document.createElement('option');o.value=v;o.textContent=v===''?'— grupo':v;fAliq.appendChild(o);});
+ [...new Set(DATA.map(r=>r.digits.slice(0,2)).filter(Boolean))].sort().forEach(c=>{const o=document.createElement('option');o.value=c;o.textContent='Cap '+c;fCap.appendChild(o);});
+ $('kTotal').textContent=DATA.length.toLocaleString('pt-BR');
+ $('kItens').textContent=DATA.filter(r=>r.tipo==='item').length.toLocaleString('pt-BR');
+ $('kNT').textContent=DATA.filter(r=>r.aliq==='NT').length.toLocaleString('pt-BR');
+}
+function aplicar(reset=true){
+ const t0=performance.now();
+ const q=$('q').value.trim(),qn=norm(q),qd=dig(q),terms=qn.split(/\s+/).filter(Boolean);
+ const fA=fAliq.value,fE=fEx.value,fC=fCap.value,fT=fTipo.value;
+ const numOnly=/^[0-9.\s]+$/.test(q);
+ F=DATA.filter(r=>{
+  if(fA!==''&&r.aliq!==fA)return false;
+  if(fE==='com'&&!r.ex)return false;
+  if(fE==='sem'&&r.ex)return false;
+  if(fC&&!r.digits.startsWith(fC))return false;
+  if(fT&&r.tipo!==fT)return false;
+  if(!q)return true;
+  if(qd.length>=2&&r._d.startsWith(qd))return true;
+  if(qd&&r.ex&&r.ex===qd)return true;
+  if(numOnly)return false;
+  return terms.every(t=>r._n.includes(t));
+ });
+ // ordenação
+ F.sort((x,y)=>{
+  let a=x[sortK]||'',b=y[sortK]||'';
+  if(sortK==='aliq'){a=a==='NT'?'9999':(a===''?'9998':a);b=b==='NT'?'9999':(b===''?'9998':b);a=parseFloat(a);b=parseFloat(b);}
+  return (a<b?-1:a>b?1:0)*sortD;
+ });
+ if(qd.length>=2){const e=F.filter(r=>r._d===qd),p=F.filter(r=>r._d!==qd&&r._d.startsWith(qd)),o=F.filter(r=>!r._d.startsWith(qd));F=[...e,...p,...o];}
+ if(reset)show=0;
+ render(((performance.now()-t0).toFixed(0)));
+}
+function tag(a){if(a==='NT')return '<span class="tag t-nt">NT</span>';if(a==='0')return '<span class="tag t-z">0%</span>';if(a==='')return '<span class="tag t-v">—</span>';return '<span class="tag t-p">'+a.replace('.',',')+'%</span>';}
+function hl(d,q){let o=d.replace(/</g,'&lt;');(q.trim().split(/\s+/).filter(t=>t.length>1)).forEach(t=>{try{o=o.replace(new RegExp('('+t.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+')','gi'),'<mark>$1</mark>')}catch(e){}});return o;}
+function render(ms){
+ const tb=$('tb'),q=$('q').value,ps=parseInt($('fPage').value);
+ if(show===0)tb.innerHTML='';
+ tb.insertAdjacentHTML('beforeend',F.slice(show,show+ps).map(r=>'<tr><td><span class="mono" style="cursor:pointer" onclick="cop(\''+r.ncm+'\')">'+r.ncm+'</span></td><td>'+(r.ex?'<b style="color:#7c3aed">'+r.ex+'</b>':'<span style="color:#cbd5e1">–</span>')+'</td><td>'+hl(r.desc,q)+'</td><td>'+tag(r.aliq)+'</td><td><button class="btn btn-lim" style="padding:4px 8px;font-size:12px" onclick="cop(\''+r.ncm+' | '+(r.ex?('EX '+r.ex+' | '):'')+r.desc.replace(/\'/g,"")+' | '+(r.aliq||'—')+'\')">Copiar</button></td></tr>').join(''));
+ show+=ps;$('kF').textContent=F.length.toLocaleString('pt-BR');
+ $('meta').innerHTML='<span>Exibindo <b>'+Math.min(show,F.length).toLocaleString('pt-BR')+'</b> de <b>'+F.length.toLocaleString('pt-BR')+'</b> · <b>'+ms+' ms</b></span>';
+ $('pg').textContent='Página parcial: '+Math.min(show,F.length)+' / '+F.length;
+ $('btnMore').style.display=show<F.length?'inline-block':'none';
+}
+function mais(){render(0);}
+function limpar(){$('q').value='';fAliq.value='';fEx.value='';fCap.value='';fTipo.value='';aplicar(true);}
+function cop(t){navigator.clipboard.writeText(t).then(()=>alert('Copiado: '+t));}
+function exportCSV(){const r=[['NCM','EX','DESCRICAO','ALIQUOTA']];F.forEach(x=>r.push([x.ncm,x.ex,'"'+x.desc.replace(/"/g,'""')+'"',x.aliq]));const b=new Blob(["\ufeff"+r.map(x=>x.join(';')).join('\n')],{type:'text/csv'});const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='ncm-tipi.csv';a.click();}
+let db;$('q').addEventListener('input',()=>{clearTimeout(db);db=setTimeout(()=>aplicar(true),150);});
+['fAliq','fEx','fCap','fTipo','fPage'].forEach(id=>$(id).addEventListener('change',()=>aplicar(true)));
+document.querySelectorAll('th[data-s]').forEach(th=>th.onclick=()=>{const k=th.dataset.s;sortD=sortK===k?-sortD:1;sortK=k;aplicar(true);});
+document.addEventListener('keydown',e=>{if(e.key==='/'){e.preventDefault();$('q').focus();}});
+init();aplicar(true);
+</script>
+</body>
+</html>
