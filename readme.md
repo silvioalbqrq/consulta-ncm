@@ -6,12 +6,16 @@ Site estático e offline para consultar **NCM, EX, descrição e alíquota de IP
 
 - Arquivo base: `1 TIPI 2022 - Atualizada ADE 001-2026.xlsx`
 - TIPI 2022 (Decreto nº 11.158/2022), atualizada até **ADE RFB nº 1/2026**
+- **Atualização 23/09/2026 — IT NF-e 2024.001 v2.40 / Res. Gecex nº 926 (vig. 01/10/2026):**
+  - Inclusão: `8518.10.20 - Outros microfones, sem suporte` (desdobro de `8518.10.90`, TEC II 0%; IPI herdado de `8518.10.90` = 9,75% até ADE RFB de adequação da TIPI)
+  - Descrição: `3913.90.50` passa de `Quitosan (Chitosan)...` para `Quitosana, seus sais ou seus derivados` (TEC 12,6% mantido)
+  - Sem extinção/revogação de NCM nesta versão; reduções de TEC (8452.10.00, 9202.10.00, 9202.90.00, 9205.10.00, 9205.90.00) e exclusões do Anexo II da Res. Gecex 272 não alteram a validade dos NCM na NF-e
 - Conversão direta do Excel, sem curadoria manual de texto
 
 ## Conteúdo da base
 
-- **15.653 linhas**: 15.662 do Excel − 8 de cabeçalho − 1 vazia
-- **11.108** NCMs completas de 8 dígitos + **4.545** agrupamentos/títulos
+- **15.654 linhas**: 15.653 base + 1 inclusão (8518.10.20)
+- **11.109** NCMs completas de 8 dígitos + **4.545** agrupamentos/títulos
 - **15.064** códigos distintos (alguns NCMs repetem com EX diferente)
 - **587** linhas com EX (inclui 5 desdobramentos `EX 01` cuja coluna NCM vinha em branco na planilha e herdaram o NCM anterior)
 - `NT` = Não Tributado
