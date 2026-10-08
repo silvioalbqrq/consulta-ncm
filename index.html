@@ -6,35 +6,41 @@
 <title>Painel Contábil — Consulta NCM × TIPI (ADE 001/2026 + IT 2.40/Gecex 926)</title>
 <style>
 *{box-sizing:border-box}
-:root{--bg:#eef1f5;--panel:#fff;--ink:#1a2332;--mut:#6b7787;--line:#dde3ec;--blue:#1d4ed8;--green:#15803d;--amber:#92400e}
-body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.45 "Segoe UI",Roboto,Arial,sans-serif}
-.top{background:#111c30;color:#fff;border-bottom:4px solid var(--blue)}
+:root{--navy:#0f2a44;--navy2:#1a3a5c;--gold:#c9a227;--gold-2:#a8861b;--goldbg:#faf5e8;--bg:#f4f2ec;--panel:#fff;--ink:#1e2a38;--mut:#5d6e80;--line:#dce4ec;--blue:#1d4ed8;--green:#15803d;--amber:#92400e;--radius:14px;--shadow:0 8px 24px rgba(15,42,68,.08)}
+body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.5 Georgia,"Times New Roman",serif}
+h1,h2,h3{font-family:Georgia,"Times New Roman",serif}
+h2{color:var(--navy);border-left:4px solid var(--gold);padding-left:10px}
+:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+.top{background:linear-gradient(135deg,#0f2a44,#1a3a5c);color:#fff;border-bottom:3px solid var(--gold)}
 .top .wrap{display:flex;align-items:center;gap:14px;padding:14px 20px;max-width:1280px;margin:0 auto}
-.logo{width:42px;height:42px;border-radius:10px;background:var(--blue);display:grid;place-items:center;font-size:22px;font-weight:800}
-.top h1{font-size:18px;margin:0}
-.top small{color:#b9c4d6;font-size:12px}
+.logo{width:42px;height:42px;border-radius:10px;background:var(--gold);color:var(--navy);display:grid;place-items:center;font-size:22px;font-weight:800}
+.top h1{font-size:18px;margin:0;color:#fff}
+.top small{color:#cdd9e8;font-size:12px}
 .top .sp{flex:1}
-.btn{border:0;border-radius:8px;padding:10px 14px;font-weight:700;font-size:13px;cursor:pointer}
-.btn-exp{background:#22c55e;color:#06280f}
-.btn-search{background:var(--blue);color:#fff}
+.btn{border:0;border-radius:8px;padding:10px 14px;font-weight:700;font-size:13px;cursor:pointer;font-family:inherit}
+.btn-exp{background:var(--navy);color:#fff}
+.btn-search{background:var(--navy);color:#fff}
+.btn-search:hover,.btn-exp:hover{background:var(--navy2)}
 .btn-lim{background:#e8edf5;color:#334155}
+.btn-gh{background:transparent;color:#fff;border:1px solid #fff;border-radius:8px;padding:10px 14px;font-weight:700;font-size:13px;cursor:pointer;text-decoration:none;font-family:inherit;white-space:nowrap}
+.btn-gh:hover{background:#fff;color:var(--navy)}
 .wrap{max-width:1280px;margin:0 auto;padding:16px 20px}
 .kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:14px 0}
-.kpi{background:var(--panel);border:1px solid var(--line);border-left:5px solid var(--blue);border-radius:10px;padding:10px 14px}
+.kpi{background:var(--panel);border:1px solid var(--line);border-top:3px solid var(--gold);border-left:5px solid var(--blue);border-radius:var(--radius);box-shadow:var(--shadow);padding:10px 14px}
 .kpi b{font-size:22px;display:block}
 .kpi span{font-size:12px;color:var(--mut)}
 .kpi.g{border-left-color:#22c55e}.kpi.a{border-left-color:#f59e0b}.kpi.d{border-left-color:#64748b}
-.panel{background:var(--panel);border:1px solid var(--line);border-radius:12px}
+.panel{background:var(--panel);border:1px solid var(--line);border-top:3px solid var(--gold);border-radius:var(--radius);box-shadow:var(--shadow)}
 .filters{padding:14px;border-bottom:1px solid var(--line);position:sticky;top:0;background:#fff;z-index:5;border-radius:12px 12px 0 0}
 .frow{display:grid;grid-template-columns:1fr 170px 130px 170px 130px;gap:10px}
 .frow2{display:flex;gap:10px;margin-top:10px;align-items:center;flex-wrap:wrap}
-input[type=text],select{width:100%;border:1.5px solid var(--line);border-radius:8px;padding:10px;font-size:14px;background:#fbfcfe}
+input[type=text],select{width:100%;border:1.5px solid var(--line);border-radius:8px;padding:10px;font-size:14px;background:#fbfcfe;font-family:inherit}
 label{font-size:11px;font-weight:700;color:var(--mut);text-transform:uppercase;display:block;margin-bottom:4px}
 .meta{display:flex;gap:16px;font-size:12px;color:var(--mut);flex-wrap:wrap}
 .meta b{color:var(--ink)}
 .tablewrap{max-height:62vh;overflow:auto}
 table{width:100%;border-collapse:collapse;font-size:13px}
-thead th{position:sticky;top:0;background:#111c30;color:#fff;padding:9px 8px;text-align:left;font-size:11px;text-transform:uppercase;cursor:pointer;white-space:nowrap;z-index:2}
+thead th{position:sticky;top:0;background:var(--navy);color:#fff;padding:9px 8px;text-align:left;font-size:11px;text-transform:uppercase;cursor:pointer;white-space:nowrap;z-index:2}
 tbody td{padding:7px 8px;border-bottom:1px solid var(--line);vertical-align:top}
 tbody tr:nth-child(even) td{background:#f7f9fc}
 tbody tr:hover td{background:#eaf1fe}
@@ -47,7 +53,23 @@ tbody tr:hover td{background:#eaf1fe}
 mark{background:#fde047;padding:0 2px}
 .pager{display:flex;gap:10px;align-items:center;justify-content:space-between;padding:12px 14px;flex-wrap:wrap}
 .foot{text-align:center;color:var(--mut);font-size:12px;padding:14px}
-@media(max-width:900px){.kpis{grid-template-columns:1fr 1fr}.frow{grid-template-columns:1fr 1fr}}
+.footer{background:#0f2a44;color:#cdd9e8;margin-top:20px;border-top:4px solid #c9a227}
+.footer strong{color:#fff}
+.footer strong.ft{font-family:Georgia,"Times New Roman",serif}
+.footer a{color:#fff}
+.footer-grid{display:grid;grid-template-columns:2fr 1fr 1.4fr;gap:20px;padding-top:26px;padding-bottom:10px}
+.footer .donate-code{font-family:Consolas,monospace;font-size:12px;background:rgba(255,255,255,.1);padding:2px 6px;border-radius:6px;word-break:break-all}
+.footer .reveal-link{color:#c9a227;font-size:12px}
+.contact-icons{display:flex;gap:10px;margin-top:10px}
+.contact-icons a{width:40px;height:40px;display:grid;place-items:center;border:1px solid #c9a227;border-radius:50%;color:#c9a227}
+.contact-icons a:hover{background:#c9a227;color:#0f2a44}
+.contact-icons svg{width:20px;height:20px}
+.btn-outline-l{background:transparent;color:#fff;border:1px solid rgba(255,255,255,.5);border-radius:9px;padding:4px 8px;font-size:12px;margin-left:6px;cursor:pointer;font-family:inherit}
+.btn-outline-l:hover{background:#fff;color:#0f2a44}
+.footer-base{border-top:1px solid rgba(255,255,255,.15);padding-top:12px;padding-bottom:18px}
+.footer-base small,.footer small{color:#9db1c7}
+@media(max-width:900px){.kpis{grid-template-columns:1fr 1fr}.frow{grid-template-columns:1fr 1fr}.footer-grid{grid-template-columns:1fr}}
+@media print{.footer{display:none}}
 </style>
 </head>
 <body>
@@ -55,6 +77,7 @@ mark{background:#fde047;padding:0 2px}
 <div class="logo">§</div>
 <div><h1>Painel Contábil — NCM × TIPI</h1><small>Decreto 11.158/2022 · TIPI 2022 até ADE RFB 001/2026 + NCM 8518.10.20 (IT NF-e 2024.001 v2.40 / Gecex 926, vig. 01/10/2026) · 15.654 linhas · uso 100% local</small></div>
 <div class="sp"></div>
+<a class="btn-gh" href="https://github.com/silvioalbqrq" target="_blank" rel="noopener">GitHub</a>
 <button class="btn btn-exp" onclick="exportCSV()">⬇ Exportar CSV</button>
 </div></div>
 <div class="wrap">
@@ -91,9 +114,13 @@ mark{background:#fde047;padding:0 2px}
 <button class="btn btn-lim" id="btnMore" onclick="mais()">Carregar mais</button>
 </div>
 </div>
-<div class="foot">Fonte: “1 TIPI 2022 - Atualizada ADE 001-2026.xlsx” + IT NF-e 2024.001 v2.40 / Res. Gecex 926 (vig. 01/10/2026: inclui 8518.10.20; 3913.90.50 passa a “Quitosana...”) · NT = Não Tributado · IPI de 8518.10.20 herdado de 8518.10.90 (9,75%) até ADE RFB de adequação da TIPI · clique no NCM para copiar · sem envio de dados</div>
+<footer class="footer"><div class="wrap footer-grid">
+<div><strong class="ft">Consulta NCM × TIPI</strong><p><small>Painel NCM × TIPI com busca, filtros e exportação CSV. Ferramenta educacional — não substitui parecer técnico ou assessoria contábil.</small></p><div class="contact-icons"><a href="mailto:silvio.albqrq@gmail.com" title="E-mail" aria-label="E-mail"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/></svg></a><a href="https://wa.me/5585998206642?text=Ol%C3%A1%2C%20vim%20pelo%20site%20Consulta%20NCM" target="_blank" rel="noopener" title="WhatsApp" aria-label="WhatsApp"><svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg></a><a href="https://github.com/silvioalbqrq" target="_blank" rel="noopener" title="GitHub" aria-label="GitHub"><svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg></a></div></div>
+<div><strong>Contato</strong><p><small><a href="https://wa.me/5585998206642?text=Ol%C3%A1%2C%20vim%20pelo%20site%20Consulta%20NCM" target="_blank" rel="noopener">WhatsApp</a><br><a href="mailto:silvio.albqrq@gmail.com">silvio.albqrq@gmail.com</a><br><a href="https://github.com/silvioalbqrq" target="_blank" rel="noopener">GitHub</a></small></p><p><small>Fonte: “1 TIPI 2022 - Atualizada ADE 001-2026.xlsx” + IT NF-e 2024.001 v2.40 / Res. Gecex 926 · sem envio de dados</small></p></div>
+<div><strong>Doações</strong><p><small>Pix: <span class="donate-code" id="pix-chave">8eea81fc…da37f</span><button class="btn-outline-l" data-copy data-full="8eea81fc-cb40-4150-91fa-6ca829ada37f">Copiar</button> <a href="#pix-chave" class="reveal-link" data-reveal data-full="8eea81fc-cb40-4150-91fa-6ca829ada37f" data-short="8eea81fc…da37f">ver completa</a></small></p><p><small>Lightning: <span class="donate-code" id="ln-address">lnbc1p4…paewhvg (invoice única)</span><button class="btn-outline-l" data-copy data-full="lnbc1p4tt3ccpp5fntekr0ya4r4zd6durklrznte0zsg5jv3zcv83sss4u4efd8d7gsdqqcqzzsxqrrsssp5xg8m0ydtzqprnym2ruqp4260au726czc86p5y2mpl575mp8avdcs9qxpqysgqsjawffjrlkwpa77wf9zvsjx99z833h0dvjqjh0nxqph75rrkghrhzrfwdhj0fqt57l0nwl69c2sgutmm40mgzhkmqy9dpzcje69u09qpaewhvg">Copiar</button> <a href="#ln-address" class="reveal-link" data-reveal data-full="lnbc1p4tt3ccpp5fntekr0ya4r4zd6durklrznte0zsg5jv3zcv83sss4u4efd8d7gsdqqcqzzsxqrrsssp5xg8m0ydtzqprnym2ruqp4260au726czc86p5y2mpl575mp8avdcs9qxpqysgqsjawffjrlkwpa77wf9zvsjx99z833h0dvjqjh0nxqph75rrkghrhzrfwdhj0fqt57l0nwl69c2sgutmm40mgzhkmqy9dpzcje69u09qpaewhvg" data-short="lnbc1p4…paewhvg (invoice única)">ver completa</a></small></p></div>
+</div><div class="wrap footer-base"><small>© 2026 Consulta NCM × TIPI · Base: TIPI / Decreto 11.158/2022 · Ferramenta educacional.</small></div></footer>
 </div>
-<script src="tipi-data.js"></script>
+<script src="tipi-data.js?v=20261008-04"></script>
 <script>
 const $=id=>document.getElementById(id);
 const norm=s=>(s||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
@@ -108,6 +135,8 @@ function init(){
  $('kTotal').textContent=DATA.length.toLocaleString('pt-BR');
  $('kItens').textContent=DATA.filter(r=>r.tipo==='item').length.toLocaleString('pt-BR');
  $('kNT').textContent=DATA.filter(r=>r.aliq==='NT').length.toLocaleString('pt-BR');
+ document.querySelectorAll('[data-copy]').forEach(btn=>{btn.addEventListener('click',()=>{const full=btn.getAttribute('data-full');if(navigator.clipboard&&full){navigator.clipboard.writeText(full).then(()=>{const o=btn.textContent;btn.textContent='Copiado!';setTimeout(()=>{btn.textContent=o;},1500);});}});});
+ document.querySelectorAll('[data-reveal]').forEach(link=>{link.addEventListener('click',e=>{e.preventDefault();const t=document.querySelector(link.getAttribute('href'));if(!t)return;const full=link.getAttribute('data-full'),short=link.getAttribute('data-short');const open=t.textContent===full;t.textContent=open?short:full;link.textContent=open?'ver completa':'ocultar';});});
 }
 function aplicar(reset=true){
  const t0=performance.now();
